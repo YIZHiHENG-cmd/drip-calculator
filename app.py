@@ -3,7 +3,7 @@ import yfinance as yf
 import pandas as pd
 
 st.set_page_config(page_title="ETF 投資介紹工具", layout="wide")
-st.title("DRIP長期投資法大解密")
+st.title("🤡0050 vs 009816：走勢圖 + DRIP 股息再投資複利計算機🤡")
 
 # 側邊欄：讓使用者選擇想看哪檔 ETF
 st.sidebar.header("請選擇 ETF")
@@ -103,10 +103,10 @@ net_difference = profit_drip - profit_no_drip
 
 if net_difference > 0:
     st.success(
-    f"💡 **一目了然多賺多少錢**：扣除投入的 **{init_investment:,.0f} TWD** 本金後，"
+    f"💡 **你多賺的錢**：扣除投入的 **{init_investment:,.0f} TWD** 本金後，"
         f"執行 DRIP 能幫你淨賺 **{profit_drip:,.0f} TWD**！"
         f"比起把股息花掉的作法（只淨賺 {profit_no_drip:,.0f} TWD），"
         f"你**純粹靠複利多賺了 {net_difference:,.0f} TWD**！"
     )
 else:
-    st.info("💡 調整上方滑桿，看看不同的報酬率與時間，會如何拉開資產的差距喔！")
+    st.info("💡 調整上方滑桿，看看不同的報酬率與時間，會如何拉開資產的差距🥵")
