@@ -3,7 +3,7 @@ import yfinance as yf
 import pandas as pd
 
 st.set_page_config(page_title="ETF 投資介紹工具", layout="wide")
-st.title("🤡0050 vs 009816：ETF標的比一比🤡")
+st.title("🤡0050vs009816：ETF標的績效比一比🤡")
 
 # 側邊欄：讓使用者選擇想看哪檔 ETF
 st.sidebar.header("請選擇 ETF")
