@@ -101,12 +101,18 @@ c2.metric(
 # 痛點分析結論
 net_difference = profit_drip - profit_no_drip
 
-if net_difference > 0:
+if "009816" in etf_option:
     st.success(
-    f"💡 **你多賺的錢**：扣除投入的 **{init_investment:,.0f} TWD** 本金後，"
+        f"💡 **009816 自動複利優勢**：扣除投入的 **{init_investment:,.0f} TWD** 本金後，"
+        f"因為 009816 自動將收益滾入再投資，{years} 年後你能帶來 **{profit_drip:,.0f} TWD** 的純淨獲利🥵"
+        f"你完全不需要手動操作，基金內部就已經為你全力執行 DRIP 複利囉！"
+    )
+elif net_difference > 0:
+    st.success(
+        f"💡 **你多賺了多少錢**：扣除投入的 **{init_investment:,.0f} TWD** 本金後，"
         f"執行 DRIP 能幫你淨賺 **{profit_drip:,.0f} TWD**！"
         f"比起把股息花掉的作法（只淨賺 {profit_no_drip:,.0f} TWD），"
-        f"你**純粹靠複利多賺了 {net_difference:,.0f} TWD**！"
+        f"你**純粹靠複利多賺了 {net_difference:,.0f} TWD**🥵"
     )
 else:
-    st.info("💡 調整上方滑桿，看看不同的報酬率與時間，會如何拉開資產的差距🥵")
+    st.info("💡 調整上方滑桿，看看不同的報酬率與時間，會如何拉開資產的差距喔！")
