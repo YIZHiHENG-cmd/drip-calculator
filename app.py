@@ -69,12 +69,19 @@ with col2:
 # 1. 有執行 DRIP (總市值以年化報酬率全力複利滾動)
 total_drip = init_investment * ((1 + annual_return / 100) ** years)
 
-# 2. 沒有執行 DRIP (本金只享受股價漲幅)
-# 股價年漲幅 = 年化總報酬率 - 配息率
+# 2. 沒有執行 DRIP (本金享股價漲幅 + 每年領走現金股息)
 price_growth_rate = (annual_return - dividend_yield) / 100
-total_no_drip = init_investment * ((1 + price_growth_rate) ** years)
+current_capital = init_investment
+total_dividends_collected = 0.0
 
-# 3. 計算純利潤 (淨獲利 = 總市值 - 初始本金)
+# 逐年計算股價上漲與領到的股息（不滾入本金）
+for _ in range(years):
+    total_dividends_collected += current_capital * (dividend_yield / 100)
+    current_capital *= (1 + price_growth_rate)
+
+total_no_drip = current_capital + total_dividends_collected
+
+# 3. 計算純利潤 (淨獲利 = 總資產 - 初始本金)
 profit_drip = total_drip - init_investment
 profit_no_drip = total_no_drip - init_investment
 
@@ -93,7 +100,7 @@ c1.metric(
 )
 
 c2.metric(
-    label="☕ 沒執行 DRIP（純淨獲利，股息拿去花）", 
+    label="☕ 沒執行 DRIP（純淨獲利，含歷年拿走股息）", 
     value=f"${profit_no_drip:,.0f} TWD",
     delta=f"總報酬率 +{roi_no_drip:.1f}%"
 )
@@ -104,14 +111,14 @@ net_difference = profit_drip - profit_no_drip
 if "009816" in etf_option:
     st.success(
         f"💡 **009816 自動複利優勢**：扣除投入的 **{init_investment:,.0f} TWD** 本金後，"
-        f"因為 009816 自動將收益滾入再投資，{years} 年後你能帶來 **{profit_drip:,.0f} TWD** 的純淨獲利🥵"
+        f"因為 009816 自動將收益滾入再投資，{years} 年後你能帶來 **{profit_drip:,.0f} TWD** 的純淨獲利🥵 "
         f"你完全不需要手動操作，基金內部就已經為你全力執行 DRIP 複利囉！"
     )
 elif net_difference > 0:
     st.success(
         f"💡 **你多賺了多少錢**：扣除投入的 **{init_investment:,.0f} TWD** 本金後，"
         f"執行 DRIP 能幫你淨賺 **{profit_drip:,.0f} TWD**！"
-        f"比起把股息花掉的作法（只淨賺 {profit_no_drip:,.0f} TWD），"
+        f"比起把股息花掉的作法（總獲利 {profit_no_drip:,.0f} TWD），"
         f"你**純粹靠複利多賺了 {net_difference:,.0f} TWD**🥵"
     )
 else:
